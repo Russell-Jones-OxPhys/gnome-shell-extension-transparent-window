@@ -6,9 +6,10 @@ import Gdk from 'gi://Gdk';
 
 import {ExtensionPreferences, gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
-const setting = ExtensionPreferences.getSettings();
-
 import * as Utils from './utils.js';
+
+// TODO: this has to be obtained and set by a subclass of ExtensionPreferences
+const setting = ExtensionPreferences.getSettings();
 
 const isVersionGreaterOrEqual = Utils.isVersionGreaterOrEqual;
 const getMultiKeysCode = Utils.getMultiKeysCode;

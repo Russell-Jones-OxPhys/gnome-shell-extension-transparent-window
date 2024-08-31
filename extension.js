@@ -1,25 +1,22 @@
-import St from 'gi://St';
-import * as Main from 'resource:///org/gnome/shell/ui/main.js';
-import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
-
-import Shell from 'gi://Shell';
-
-import Meta from 'gi://Meta';
-import Clutter from 'gi://Clutter';
-import * as Layout from 'resource:///org/gnome/shell/ui/layout.js';
-
 import Gdk from 'gi://Gdk';
 import GLib from 'gi://GLib';
+import St from 'gi://St';
+import Shell from 'gi://Shell';
+import Meta from 'gi://Meta';
+import Clutter from 'gi://Clutter';
 
-//logger
+import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
+
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as Layout from 'resource:///org/gnome/shell/ui/layout.js';
+
 import * as Logger from './logger.js';
+import * as Utils from './utils.js';
 
 //setting
-// TODO: This has to be obtained and set by a subclass of ExtensionPreferences
+// TODO: This has to be obtained by a subclass of Extension
 let setting;
 
-// const Utils = Me.imports.utils;
-import * as Utils from './utils.js';
 const isVersionGreaterOrEqual = Utils.isVersionGreaterOrEqual;
 const getMultiKeysCode = Utils.getMultiKeysCode;
 
