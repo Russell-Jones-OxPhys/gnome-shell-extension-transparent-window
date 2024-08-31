@@ -1,25 +1,38 @@
-const St = imports.gi.St;
-const Main = imports.ui.main;
-//const Tweener = imports.ui.tweener; //not referenced anywhere in file and apparently not needed. commented out for 3.38 compatibility
-const Shell = imports.gi.Shell;
-const ExtensionUtils = imports.misc.extensionUtils;
-const Me = ExtensionUtils.getCurrentExtension();
-const Meta = imports.gi.Meta;
-const Clutter = imports.gi.Clutter;
+// const St = imports.gi.St;
+import St from 'gi://St';
+// const Main = imports.ui.main;
+import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+
+// const Shell = imports.gi.Shell;
+import Shell from 'gi://Shell';
+
+// const ExtensionUtils = imports.misc.extensionUtils;
+// const Me = ExtensionUtils.getCurrentExtension();
+// https://gjs.guide/extensions/upgrading/gnome-shell-45.html#extensionutils
+
+// const Meta = imports.gi.Meta;
+import Meta from 'gi://Meta';
+// const Clutter = imports.gi.Clutter;
+import Clutter from 'gi://Clutter';
 const Layout = imports.ui.layout;
 
-const Gdk = imports.gi.Gdk;
-const GLib = imports.gi.GLib;
+// const Gdk = imports.gi.Gdk;
+import Gdk from 'gi://Gdk';
+// const GLib = imports.gi.GLib;
+import GLib from 'gi://GLib';
 
 //logger
-const currentExtension = ExtensionUtils.getCurrentExtension();
-const Logger = currentExtension.imports.logger.Logger;
+// const currentExtension = ExtensionUtils.getCurrentExtension();
+// const Logger = currentExtension.imports.logger.Logger;
+import * as Logger from './logger.js';
 
 //setting
-const Convenience = currentExtension.imports.convenience;
+// const Convenience = currentExtension.imports.convenience;
+import * as Convenience from './convenience.js';
 let setting;
 
-const Utils = Me.imports.utils;
+// const Utils = Me.imports.utils;
+import * as Utils from './utils.js';
 const isVersionGreaterOrEqual = Utils.isVersionGreaterOrEqual;
 const getMultiKeysCode = Utils.getMultiKeysCode;
 

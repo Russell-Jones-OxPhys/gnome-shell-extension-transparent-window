@@ -1,21 +1,35 @@
-const GLib = imports.gi.GLib;
-const GObject = imports.gi.GObject;
-const Gio = imports.gi.Gio;
-const Gtk = imports.gi.Gtk;
-const Lang = imports.lang;
+// Applied https://gjs.guide/extensions/upgrading/gnome-shell-45.html#esm
+// const GLib = imports.gi.GLib;
+import GLib from 'gi://GLib';
+// const GObject = imports.gi.GObject;
+import GObject from 'gi://GObject';
+// const Gio = imports.gi.Gio;
+import Gio from 'gi://Gio';
+// const Gtk = imports.gi.Gtk;
+import Gtk from 'gi://Gtk';
+// const Lang = imports.lang;
+// not used in this or any other file in this extension
 
-const Gettext = imports.gettext.domain('transparent-window');
-const _ = Gettext.gettext;
+// https://gjs.guide/extensions/upgrading/gnome-shell-45.html#extensionutils
+// const Gettext = imports.gettext.domain('transparent-window'); 
+// ^^ Moved to metadata.json
+// const _ = Gettext.gettext;
+// const ExtensionUtils = imports.misc.extensionUtils;
+// See https://gjs.guide/extensions/overview/anatomy.html
+import {ExtensionPreferences, gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
-const ExtensionUtils = imports.misc.extensionUtils;
-const Me = ExtensionUtils.getCurrentExtension();
-const Convenience = Me.imports.convenience;
+// const Me = ExtensionUtils.getCurrentExtension();
+// const Convenience = Me.imports.convenience;
+import * as Convenience from './convenience.js';
 
 const setting = Convenience.getSettings();
 
-const Gdk = imports.gi.Gdk;
+// const Gdk = imports.gi.Gdk;
+import Gdk from 'gi://Gdk';
 
-const Utils = Me.imports.utils;
+// const Utils = Me.imports.utils;
+import * as Utils from './utils.js';
+
 const isVersionGreaterOrEqual = Utils.isVersionGreaterOrEqual;
 const getMultiKeysCode = Utils.getMultiKeysCode;
 

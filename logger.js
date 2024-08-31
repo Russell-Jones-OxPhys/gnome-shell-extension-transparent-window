@@ -1,4 +1,5 @@
-const GLib = imports.gi.GLib;
+// const GLib = imports.gi.GLib;
+import GLib from 'gi://GLib';
 
 function Logger(module, verboseLevel){
   this.moduleName = "[" + module + "]";

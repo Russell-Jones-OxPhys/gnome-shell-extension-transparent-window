@@ -25,11 +25,22 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-const Gettext = imports.gettext;
-const Gio = imports.gi.Gio;
+// const Gettext = imports.gettext;
+// import {gettext as Gettext} from './prefs.js';
+// const Gio = imports.gi.Gio;
+import Gio from 'gi://Gio';
+// const Gdk = imports.gi.Gdk;
+import Gdk from 'gi://Gdk';
 
-const Config = imports.misc.config;
-const ExtensionUtils = imports.misc.extensionUtils;
+// const Config = imports.misc.config;
+// import * as Config from 'resource:///org/gnome/shell/misc/config.js';
+// ^^ Doesn't work. Translation domain is specified in metadata.json
+// See extension.js vs prefs.js at https://gjs.guide/extensions/upgrading/gnome-shell-45.html#esm
+import * as Config from 'resource:///org/gnome/Shell/Extensions/js/misc/config.js';
+// const ExtensionUtils = imports.misc.extensionUtils;
+
+// Might not work, may need to use ExtensionPreferences
+import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 /**
  * initTranslations:
@@ -39,8 +50,9 @@ const ExtensionUtils = imports.misc.extensionUtils;
  * If @domain is not provided, it will be taken from metadata['gettext-domain']
  */
 function initTranslations(domain) {
-  let extension = ExtensionUtils.getCurrentExtension();
 
+//  let extension = ExtensionUtils.getCurrentExtension();
+  let extension = Extension.lookupByURL(import.meta.url);
   domain = domain || extension.metadata['gettext-domain'];
 
   // check if this extension was built with "make zip-file", and thus
@@ -63,9 +75,10 @@ function initTranslations(domain) {
  * metadata['settings-schema'].
  */
 function getSettings(schema) {
-  let extension = ExtensionUtils.getCurrentExtension();
-
-  schema = schema || extension.metadata['settings-schema'];
+  // let extension = ExtensionUtils.getCurrentExtension();
+  let extension = Extension.lookupByURL(import.meta.url);
+  // schema = schema || extension.metadata['settings-schema'];
+  schema = import.meta.settings-schema;
 
   const GioSSS = Gio.SettingsSchemaSource;
 
