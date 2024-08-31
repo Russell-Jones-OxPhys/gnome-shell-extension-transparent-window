@@ -1,38 +1,21 @@
-// const St = imports.gi.St;
 import St from 'gi://St';
-// const Main = imports.ui.main;
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
-// This is usual for Gnomeshell 45+
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 
-// const Shell = imports.gi.Shell;
 import Shell from 'gi://Shell';
 
-// const ExtensionUtils = imports.misc.extensionUtils;
-// const Me = ExtensionUtils.getCurrentExtension();
-// https://gjs.guide/extensions/upgrading/gnome-shell-45.html#extensionutils
-
-// const Meta = imports.gi.Meta;
 import Meta from 'gi://Meta';
-// const Clutter = imports.gi.Clutter;
 import Clutter from 'gi://Clutter';
-const Layout = imports.ui.layout;
+import * as Layout from 'resource:///org/gnome/shell/ui/layout.js';
 
-// const Gdk = imports.gi.Gdk;
 import Gdk from 'gi://Gdk';
-// const GLib = imports.gi.GLib;
 import GLib from 'gi://GLib';
 
 //logger
-// const currentExtension = ExtensionUtils.getCurrentExtension();
-// const Logger = currentExtension.imports.logger.Logger;
 import * as Logger from './logger.js';
 
 //setting
-// const Convenience = currentExtension.imports.convenience;
-// import * as Convenience from './convenience.js';
-// Move inline as the same code can't be used in prefs.js and extension.js anymore
-
+// TODO: This has to be obtained and set by a subclass of ExtensionPreferences
 let setting;
 
 // const Utils = Me.imports.utils;

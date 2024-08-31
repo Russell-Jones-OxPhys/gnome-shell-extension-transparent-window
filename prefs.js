@@ -1,34 +1,13 @@
-// Applied https://gjs.guide/extensions/upgrading/gnome-shell-45.html#esm
-// const GLib = imports.gi.GLib;
 import GLib from 'gi://GLib';
-// const GObject = imports.gi.GObject;
 import GObject from 'gi://GObject';
-// const Gio = imports.gi.Gio;
 import Gio from 'gi://Gio';
-// const Gtk = imports.gi.Gtk;
 import Gtk from 'gi://Gtk';
-// const Lang = imports.lang;
-// not used in this or any other file in this extension
+import Gdk from 'gi://Gdk';
 
-// https://gjs.guide/extensions/upgrading/gnome-shell-45.html#extensionutils
-// const Gettext = imports.gettext.domain('transparent-window'); 
-// ^^ Moved to metadata.json
-// const _ = Gettext.gettext;
-// const ExtensionUtils = imports.misc.extensionUtils;
-// See https://gjs.guide/extensions/overview/anatomy.html
 import {ExtensionPreferences, gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
-
-// const Me = ExtensionUtils.getCurrentExtension();
-// const Convenience = Me.imports.convenience;
-// Translations/gettext domains are handled in metadata.json
-// import * as Convenience from './convenience.js';
 
 const setting = ExtensionPreferences.getSettings();
 
-// const Gdk = imports.gi.Gdk;
-import Gdk from 'gi://Gdk';
-
-// const Utils = Me.imports.utils;
 import * as Utils from './utils.js';
 
 const isVersionGreaterOrEqual = Utils.isVersionGreaterOrEqual;
@@ -42,9 +21,7 @@ let gnome_at_least_40_1;
 
 // TODO: this has to be a class extending ExtensionPreferences
 
-
 function init(){
-  // Convenience.initTranslations('transparent-window');
 
   GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, () => {
     const display = Gdk.Display.get_default();
