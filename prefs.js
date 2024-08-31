@@ -20,9 +20,10 @@ import {ExtensionPreferences, gettext as _} from 'resource:///org/gnome/Shell/Ex
 
 // const Me = ExtensionUtils.getCurrentExtension();
 // const Convenience = Me.imports.convenience;
-import * as Convenience from './convenience.js';
+// Translations/gettext domains are handled in metadata.json
+// import * as Convenience from './convenience.js';
 
-const setting = Convenience.getSettings();
+const setting = ExtensionPreferences.getSettings();
 
 // const Gdk = imports.gi.Gdk;
 import Gdk from 'gi://Gdk';
@@ -39,9 +40,11 @@ let maxKeysCode = 0;
 let keymap, sig_keymap;
 let gnome_at_least_40_1;
 
+// TODO: this has to be a class extending ExtensionPreferences
+
 
 function init(){
-  Convenience.initTranslations('transparent-window');
+  // Convenience.initTranslations('transparent-window');
 
   GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, () => {
     const display = Gdk.Display.get_default();

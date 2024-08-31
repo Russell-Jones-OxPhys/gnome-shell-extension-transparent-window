@@ -40,7 +40,7 @@ import * as Config from 'resource:///org/gnome/Shell/Extensions/js/misc/config.j
 // const ExtensionUtils = imports.misc.extensionUtils;
 
 // Might not work, may need to use ExtensionPreferences
-import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
+import {Extension} from 'resource:///org/gnome/Shell/Extensions/js/extension.js';
 
 /**
  * initTranslations:
@@ -49,6 +49,9 @@ import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
  * Initialize Gettext to load translations from extensionsdir/locale.
  * If @domain is not provided, it will be taken from metadata['gettext-domain']
  */
+
+/*
+ * No longer used
 function initTranslations(domain) {
 
 //  let extension = ExtensionUtils.getCurrentExtension();
@@ -65,6 +68,8 @@ function initTranslations(domain) {
   else
     Gettext.bindtextdomain(domain, Config.LOCALEDIR);
 }
+*/
+
 
 /**
  * getSettings:
@@ -74,6 +79,8 @@ function initTranslations(domain) {
  * in extensionsdir/schemas. If @schema is not provided, it is taken from
  * metadata['settings-schema'].
  */
+
+/* No longer used
 function getSettings(schema) {
   // let extension = ExtensionUtils.getCurrentExtension();
   let extension = Extension.lookupByURL(import.meta.url);
@@ -103,4 +110,4 @@ function getSettings(schema) {
 
   return new Gio.Settings({ settings_schema: schemaObj });
 }
-
+*/ 

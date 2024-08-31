@@ -2,6 +2,8 @@
 import St from 'gi://St';
 // const Main = imports.ui.main;
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+// This is usual for Gnomeshell 45+
+import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 // const Shell = imports.gi.Shell;
 import Shell from 'gi://Shell';
@@ -28,7 +30,9 @@ import * as Logger from './logger.js';
 
 //setting
 // const Convenience = currentExtension.imports.convenience;
-import * as Convenience from './convenience.js';
+// import * as Convenience from './convenience.js';
+// Move inline as the same code can't be used in prefs.js and extension.js anymore
+
 let setting;
 
 // const Utils = Me.imports.utils;
@@ -53,8 +57,9 @@ let gnome_at_least_40_1;
 
 let keymap_timeout_id;
 
+// TODO: this has to be a class extending ExtensionPreferences
 
-//TODO: Add "About" page. Add config for minimum opacity and step.
+// TODO: Add "About" page. Add config for minimum opacity and step.
 function init() {
   
 }
@@ -152,7 +157,7 @@ function onHotkeyPressed() {
 }
 
 function enable() {
-  setting = Convenience.getSettings();
+  setting = Extension.getSettings();
   Log = new Logger("TransparentWindow", setting.get_int('verbose-level'));
   modifier_key = setting.get_int('modifier-key');
   Log.debug("Gnome version:" + imports.misc.config.PACKAGE_VERSION);
