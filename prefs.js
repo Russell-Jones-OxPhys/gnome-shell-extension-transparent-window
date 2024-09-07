@@ -7,51 +7,15 @@ import Gdk from 'gi://Gdk';
 import {ExtensionPreferences, gettext as _} from 'resource:///org/gnome/Shell/Extensions/js/extensions/prefs.js';
 
 import * as Utils from './utils.js';
-
-// TODO: this has to be obtained and set by a subclass of ExtensionPreferences
-const setting = ExtensionPreferences.getSettings();
-
-const isVersionGreaterOrEqual = Utils.isVersionGreaterOrEqual;
 const getMultiKeysCode = Utils.getMultiKeysCode;
 
+let setting;
 let ModifierKeyWidget;
 let startTime = 0;
 let maxKeysCode = 0;
 let keymap, sig_keymap;
-let gnome_at_least_40_1;
 
-// TODO: this has to be a class extending ExtensionPreferences
-
-function init(){
-
-  GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, () => {
-    const display = Gdk.Display.get_default();
-
-    if (display !== null) {
-      keymap = Gdk.Keymap.get_for_display(display);
-      sig_keymap = keymap.connect('state_changed', onHotkeyPressed);
-
-      return GLib.SOURCE_REMOVE; // destroy task
-    }
-
-    return true; // repeat task
-  });
-
-  gnome_at_least_40_1 = isVersionGreaterOrEqual(40, 1);
-}
-
-function onHotkeyPressed() {
-  const multiKeysCode = getMultiKeysCode(keymap);
-  //new keystroke series coming out, reset startTime and max keyscode
-  if(Date.now() - startTime > 500) {
-    startTime = Date.now();
-    maxKeysCode = 0;
-  }
-  maxKeysCode = Math.max(maxKeysCode, multiKeysCode);
-  ModifierKeyWidget.set_value(maxKeysCode);
-  return;
-}
-
+// TODO: this has to be obtained and set by a subclass of ExtensionPreferences
 const TransparentWindowPrefsWidget = new GObject.Class({
   Name: 'TransparentWindow.Prefs.Widget',
   GTypeName: 'TransparentWindowPrefsWidget',
@@ -64,15 +28,11 @@ const TransparentWindowPrefsWidget = new GObject.Class({
     //Modifier key code setting
     let ModifierKeyBox = new Gtk.Box({
       orientation: Gtk.Orientation.HORIZONTAL,
-      [gnome_at_least_40_1 ? 'margin-start' : 'margin']: 10
+      'margin-start' : 10
     });
     let ModifierKeyLabel = new Gtk.Label({label:_("Modifier Key Code:"), xalign:0});
 
-    if (gnome_at_least_40_1) {
-      ModifierKeyLabel.set_wrap(true); //For GTK4
-    } else {
-      ModifierKeyLabel.set_line_wrap(true);  // For GTK3
-    }
+    ModifierKeyLabel.set_wrap(true); //For GTK4
 
     ModifierKeyLabel.set_markup("Modifier Key Code:\n<small>Press the key(combination of Ctrl, Alt, Shift and Super key only) you want to use with scroll to change window transparency. Default key code(Alt) is 8.</small>");
     ModifierKeyWidget = new Gtk.SpinButton();
@@ -84,20 +44,14 @@ const TransparentWindowPrefsWidget = new GObject.Class({
       setting.set_int('modifier-key', w.get_value_as_int());
     });
 
-    if (gnome_at_least_40_1) {
       ModifierKeyBox.prepend(ModifierKeyLabel, true, true, 0);
       ModifierKeyBox.append(ModifierKeyWidget);
       this.append(ModifierKeyBox);
-    } else {
-      ModifierKeyBox.pack_start(ModifierKeyLabel, true, true, 0);
-      ModifierKeyBox.add(ModifierKeyWidget);
-      this.add(ModifierKeyBox);
-    }
 
     //Log verbose level setting
     let LogLevelBox = new Gtk.Box({
       orientation: Gtk.Orientation.HORIZONTAL,
-      [gnome_at_least_40_1 ? 'margin-start' : 'margin']: 10
+      'margin-start': 10
     });
     let LogLevelLabel = new Gtk.Label({label:_("Log Verbose Level:"), xalign:0});
     let LogLevelWidget = new Gtk.ComboBoxText();
@@ -110,25 +64,50 @@ const TransparentWindowPrefsWidget = new GObject.Class({
       setting.set_int('verbose-level', comboWidget.get_active());
     });
 
-    if (gnome_at_least_40_1) {
       LogLevelBox.prepend(LogLevelLabel, true, true, 0);
       LogLevelBox.append(LogLevelWidget);
       this.append(LogLevelBox);
-    } else {
-      LogLevelBox.pack_start(LogLevelLabel, true, true, 0);
-      LogLevelBox.add(LogLevelWidget);
-      this.add(LogLevelBox);
-    }
   },
 });
 
+// TODO: this has to be a class extending ExtensionPreferences
+export default class TransparentWindowPreferences extends ExtensionPreferences {
+  constructor(metadata){
+    super(metadata);
+    setting = this.getSettings();
+    GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, () => {
+      const display = Gdk.Display.get_default();
 
-function buildPrefsWidget(){
-  let widget = new TransparentWindowPrefsWidget();
+      if (display !== null) {
+        keymap = Gdk.Keymap.get_for_display(display);
+        sig_keymap = keymap.connect('state_changed', onHotkeyPressed);
 
-  if (!gnome_at_least_40_1) {
-    widget.show_all();
+        return GLib.SOURCE_REMOVE; // destroy task
+      }
+
+      return true; // repeat task
+    });
   }
 
-  return widget;
+  fillPreferencesWindow(window) {
+
+  }
+
+  onHotkeyPressed() {
+    const multiKeysCode = getMultiKeysCode(keymap);
+    //new keystroke series coming out, reset startTime and max keyscode
+    if(Date.now() - startTime > 500) {
+      startTime = Date.now();
+      maxKeysCode = 0;
+    }
+    maxKeysCode = Math.max(maxKeysCode, multiKeysCode);
+    ModifierKeyWidget.set_value(maxKeysCode);
+    return;
+  }
+
+  buildPrefsWidget(){
+    let widget = new TransparentWindowPrefsWidget();
+
+    return widget;
+  }
 }
